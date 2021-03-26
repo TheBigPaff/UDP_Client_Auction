@@ -1,0 +1,137 @@
+﻿<UserControl x:Class="UDP_Client_Auction.AuctionControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UDP_Client_Auction"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             mc:Ignorable="d" 
+             x:Name="_AuctionControl"
+             FontSize="18">
+    <UserControl.Resources>
+        <Style x:Key="CardButtonStyle" TargetType="{x:Type ToggleButton}">
+            <Setter Property="Background" Value="WhiteSmoke"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Width" Value="300"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <!-- Top Left, Top Right, Bottom Right and Bottom Left -->
+                        <Border Padding="10" CornerRadius="10" Background="{TemplateBinding Background}" 
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                BorderBrush="{TemplateBinding BorderBrush}">
+                            <StackPanel>
+                                <Path HorizontalAlignment="Right" Data="{StaticResource more}" Style="{StaticResource {x:Type Path}}"/>
+
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+
+                                    <Ellipse StrokeThickness="1" Stroke="White"
+                                            Height="80" Width="80" HorizontalAlignment="Center">
+                                        <Ellipse.Fill>
+                                            <ImageBrush ImageSource="{Binding ImageSource, ElementName=_AuctionControl, FallbackValue='/Assets/user_icon.png', TargetNullValue='/Assets/user_icon.png'}"
+                                                        Stretch="Uniform"/>
+                                        </Ellipse.Fill>
+                                    </Ellipse>
+
+                                    <!--<StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
+                                        <Ellipse StrokeThickness="1" Stroke="White"
+                                            Height="30" Width="30" HorizontalAlignment="Right">
+                                            <Ellipse.Fill>
+                                                <ImageBrush ImageSource="/assets/1.png"
+                                                        Stretch="Uniform"/>
+                                            </Ellipse.Fill>
+                                        </Ellipse>
+
+                                        <Ellipse StrokeThickness="1" Stroke="White"
+                                            Margin="-5,0" Height="30" Width="30" HorizontalAlignment="Right">
+                                            <Ellipse.Fill>
+                                                <ImageBrush ImageSource="/assets/2.png"
+                                                        Stretch="Uniform"/>
+                                            </Ellipse.Fill>
+                                        </Ellipse>
+
+                                        <Ellipse StrokeThickness="1" Stroke="White"
+                                            Height="30" Width="30" HorizontalAlignment="Right">
+                                            <Ellipse.Fill>
+                                                <ImageBrush ImageSource="/assets/2.png"
+                                                        Stretch="Uniform"/>
+                                            </Ellipse.Fill>
+                                        </Ellipse>
+                                    </StackPanel>-->
+                                    <TextBlock Margin="15, 0, 0, 0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="22"
+                                           Text="{Binding ItemName, ElementName=_AuctionControl, FallbackValue='Item Name', TargetNullValue='Item Name'}"/>
+                                </Grid>
+
+
+
+                                <!--<Grid Grid.Row="1" VerticalAlignment="Center">
+                                    <StackPanel>
+                                        <Grid>
+                                            <TextBlock Text="70 Gb"/>
+                                            <TextBlock Text="100 Gb" HorizontalAlignment="Right"/>
+                                        </Grid>
+                                    </StackPanel>
+                                </Grid>-->
+
+                                <Grid Margin="5, 15, 5, 0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <StackPanel Orientation="Horizontal">
+                                        <iconPacks:PackIconMaterial Kind="ClockTimeEight" 
+                                        VerticalAlignment="Center" 
+                                        HorizontalAlignment="Center" 
+                                        Foreground="Teal"/>
+                                        <TextBlock x:Name="endDateTimeTb" Margin="5, 0" 
+                                                   Text="{Binding EndDateTime, ElementName=_AuctionControl, 
+                                            FallbackValue='End: ', TargetNullValue='End: '}" 
+                                                   Foreground="{TemplateBinding Foreground}"
+                                                   VerticalAlignment="Center" FontSize="16"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,5,0,0">
+                                        <!--<Rectangle VerticalAlignment="Stretch" Width="0.6" Stroke="Teal"/>-->
+                                        <iconPacks:PackIconMaterial Kind="CurrencyEur" Margin="0, 0, 0, 0"
+                                        VerticalAlignment="Center" 
+                                        HorizontalAlignment="Center" 
+                                        Foreground="Teal"/>
+                                        <TextBlock x:Name="highestBidTb" Grid.Column="1" Margin="5, 0" 
+                                                   Text="{Binding HighestBid, ElementName=_AuctionControl, FallbackValue='Highest Bid: ', TargetNullValue='Highest Bid: '}" 
+                                                   Foreground="{TemplateBinding Foreground}"
+                                                   VerticalAlignment="Center" FontSize="16"/>
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                        <!--<ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter Property="BorderThickness" Value="2"/>
+                                <Setter Property="BorderBrush" Value="White"/>
+                                <Setter TargetName="recentIcon" Property="Fill" Value="White"/>
+                                <Setter TargetName="lastChangeText" Property="Foreground" Value="White"/>
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect ShadowDepth="1" Color="#BFE6FD" BlurRadius="20"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            -->
+                        <!--<Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#b7f7f7"/>
+                            </Trigger>-->
+                        <!--
+                        </ControlTemplate.Triggers>-->
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <RadioButton Style="{StaticResource CardButtonStyle}" GroupName="Card" IsChecked="{Binding IsChecked, ElementName=_CardControl}" Click="RadioButton_Click" Cursor="Hand" Height="200" Width="400"/>
+</UserControl>

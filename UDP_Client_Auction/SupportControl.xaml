@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="UDP_Client_Auction.SupportControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UDP_Client_Auction"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" Background="White">
+    <Grid>
+
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="0.75*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width=".65*"/>
+            <ColumnDefinition Width=".35*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Name="nameTb" Grid.Column="0" Text="Contact Me" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                        Foreground="Teal" TextWrapping="Wrap" FontWeight="Bold" FontSize="28" Margin="20, 0, 0 ,0"/>
+
+        <Image Grid.Column="1" Grid.RowSpan="2" Stretch="Uniform" Width="Auto" Height="Auto" Source="/Assets/logo_heading.png"/>
+
+        <StackPanel Grid.Row="1" Grid.Column="0" Margin="20,20,0,0">
+
+            <TextBlock Text="This app was made by Patrick Deniso as a school project."
+                   TextWrapping="Wrap" FontSize="22"/>
+            <TextBlock Text="Tech Stack: C#, WPF, MySQL. Google Charts service and CEF Sharp browser was used for the statistics tab."
+                   TextWrapping="Wrap" Margin="0,10,0,0" FontSize="22"/>
+            <TextBlock Text="Fun fact: the name of the app, Auction Web, comes from the original name of eBay, back in 1995."
+                   TextWrapping="Wrap" Margin="0,25,0,0" FontSize="16"/>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Margin="0,25,0,0">
+                <iconPacks:PackIconMaterial Kind="Email" Foreground="Teal" Margin="0,0,5,0"/>
+                <TextBlock Text="Have any enquiries? Want to send feedback? This is my email: "
+                           FontSize="18" TextWrapping="Wrap"/>
+                <TextBlock FontSize="18" TextWrapping="Wrap">
+                <Hyperlink NavigateUri="mailto:patrickdeniso@gmail.com?subject=AuctionWeb Support Inquiry" 
+                            RequestNavigate="Hyperlink_RequestNavigate">
+                        patrickdeniso@gmail.com
+                </Hyperlink>
+                </TextBlock>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

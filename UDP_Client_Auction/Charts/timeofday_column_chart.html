@@ -1,0 +1,39 @@
+<html>
+<head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+	google.charts.load('current', {packages: ['corechart', 'bar']});
+	google.charts.setOnLoadCallback(drawBasic);
+
+	function drawBasic() {
+
+      var data = new google.visualization.DataTable();
+      data.addColumn('timeofday', 'Time of Day');
+      data.addColumn('number', 'Purchases');
+
+      data.addRows([
+        // [{v: [8, 30], f: '8:30 AM'}, 2]
+      ]);
+
+      var options = {
+        title: 'Number of purchases throughout the day',
+        hAxis: {
+          title: 'Time of Day',
+          format: 'h:mm a'
+        },
+        vAxis: {
+          title: 'Number of purchases'
+        }
+      };
+
+      var chart = new google.visualization.ColumnChart(
+        document.getElementById('chart_div'));
+
+      chart.draw(data, options);
+    }
+</script>
+</head>
+<body>
+    <div id="chart_div" style="width: 1000px; height: 350px;"></div>
+</body>
+</html>
