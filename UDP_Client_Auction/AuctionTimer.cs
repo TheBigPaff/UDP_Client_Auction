@@ -73,9 +73,6 @@ namespace UDP_Client_Auction
                 {
                     control.endAuctionTb.Inlines.Add(new Run("\nThe auction ended without anyone winning it."));
                 }
-
-
-
             }
             else if (Session.contentArea.Content is AuctionsControl)
             {

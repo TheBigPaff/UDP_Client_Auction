@@ -295,6 +295,7 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\echo_dot.jpg" />
+    <Resource Include="Assets\logitech.jpg" />
     <Content Include="Charts\calendar.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -96,6 +96,25 @@ namespace UDP_Client_Auction
                 //    MessageBox.Show("That username doesn't exist");
                 //}
 
+
+                // does username exist?
+                int id = DB.GetUserId(tbUsername.Text);
+                if (id != -1)
+                {
+                    if (DB.GetToken(pbPassword.Password, id))
+                    {
+                        MessageBox.Show("Token used!");
+                        DB.SetTokenToUsed(pbPassword.Password);
+
+                        Session.LoggedUser = DB.UserLogIn(tbUsername.Text);
+                        SignWindow signWindow = Helper.GetAncestorOfType<SignWindow>(this);
+                        if (signWindow != null)
+                        {
+                            signWindow.EnterApp(Session.LoggedUser.ProPicPath);
+                            return;
+                        }
+                    }
+                }
                 MessageBox.Show("Username or password wrong");
             }
         }

@@ -36,7 +36,7 @@
         </Grid>
 
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-            <StackPanel Orientation="Vertical" Margin="40,0" >
+            <StackPanel Orientation="Vertical" Margin="30,0" >
                 <WrapPanel Name="cardsWp">
                 </WrapPanel>
             </StackPanel>

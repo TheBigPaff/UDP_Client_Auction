@@ -30,14 +30,14 @@ namespace UDP_Client_Auction
         {
             // check if username is correct
             string email;
-            bool usernameExists =  DB.TryGetUserEmail(tbUsername.Text, out email);
+            User user = DB.UserLogIn(tbUsername.Text);
 
-            if(!usernameExists)
+            if(user == null)
             {
                 SystemSounds.Exclamation.Play();
                 MessageBox.Show("There is no user with that username! Try again.");
             }
-            else if (string.IsNullOrWhiteSpace(email))
+            else if (string.IsNullOrWhiteSpace(user.Email))
             {
                 SystemSounds.Exclamation.Play();
                 MessageBox.Show("That username doesn't have an email. Contact support to get your account back.");
@@ -45,18 +45,18 @@ namespace UDP_Client_Auction
             else 
             {
                 // generate temporary password
-                string tempPwd = RandomString(5);
+                string tempPwd = RandomString(6);
 
                 // send email
                 string title = "Your temporary password - Deniso's Auctions";
                 string msgBody = $"Hello {tbUsername.Text},\nThis is your temporary password which you will be able to use to access your account ONLY ONCE and will expire in 24 hours.\nTEMPORARY PASSWORD: {tempPwd}\n\nYou should change your password as soon as you access your account.";
-                Helper.SendEmail(email, title, msgBody);
+                Helper.SendEmail(user.Email, title, msgBody);
 
 
                 // register to database ResetTickets table
                 DateTime expireDate = DateTime.Now.AddDays(1); // email expire date
 
-                DB.SaveResetTicket(tbUsername.Text, tempPwd, expireDate);
+                DB.SaveResetTicket(user.Id, tempPwd, expireDate);
 
                 // go back to LogInControl
                 MessageBox.Show("Email sent! Check your inbox.");

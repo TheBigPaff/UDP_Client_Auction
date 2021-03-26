@@ -74,6 +74,41 @@ namespace UDP_Client_Auction
             return user;
         }
 
+        public static User UserLogIn(string username)
+        {
+            User user = null;
+
+            string query = $"SELECT * FROM users WHERE username='{username}'";
+
+            // Prepare the connection
+            MySqlConnection dbConnection = new MySqlConnection(LoadConnectionString());
+            MySqlCommand dbCommand = new MySqlCommand(query, dbConnection);
+            dbCommand.CommandTimeout = 60;
+            MySqlDataReader reader;
+
+            try
+            {
+                dbConnection.Open();
+                reader = dbCommand.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    user = new User();
+                    user.Id = int.Parse(reader["id"].ToString());
+                    user.Username = reader["username"].ToString();
+                    user.Email = reader["email"].ToString();
+                    user.Password = reader["password"].ToString();
+                    user.ProPicPath = reader["propic_path"].ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("DB error: " + ex.Message);
+            }
+
+            return user;
+        }
+
         internal static List<Auction> GetItemsBought(User user)
         {
             List<Auction> auctions = new List<Auction>();
@@ -195,9 +230,24 @@ namespace UDP_Client_Auction
             throw new NotImplementedException();
         }
 
-        internal static void SaveResetTicket(string text, string tempPwd, DateTime expireDate)
+        internal static void SaveResetTicket(int id, string tempPwd, DateTime expireDate)
         {
-            throw new NotImplementedException();
+            string query = $"INSERT reset_tickets (token, expiration_date, token_used, user_id) VALUES ('{tempPwd}', '{expireDate.ToString("yyyy-MM-dd HH:mm:ss")}', '0' , '{id}')";
+
+            // Prepare the connection
+            MySqlConnection dbConnection = new MySqlConnection(LoadConnectionString());
+            MySqlCommand dbCommand = new MySqlCommand(query, dbConnection);
+            dbCommand.CommandTimeout = 60;
+            try
+            {
+                dbConnection.Open();
+                dbCommand.ExecuteNonQuery();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("DB error: " + ex.Message);
+            }
         }
 
         internal static void TicketWasUsed(int ticketId)
@@ -205,63 +255,51 @@ namespace UDP_Client_Auction
             throw new NotImplementedException();
         }
 
-        internal static User GetUser(int userId)
+        // very dumb you're doing this with the token and not the id, whatever man i'm tired
+        internal static void SetTokenToUsed(string token)
         {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Returns token id if it exists, not expired and not been used already. 
-        /// Returns 0 if it exists but has been used.
-        /// Returns -1 if it has expired.
-        /// Returns -2 if doesn't exist.
-        /// </summary>
-        internal static int TryGetToken(string token, int userId)
-        {
-            int id = -2;
-            string queryExists = $"SELECT id FROM ResetTickets WHERE Token = '{token}' AND UserId = {userId}";
-            string queryTokenId = $"SELECT id FROM ResetTickets WHERE Token = '{token}' AND UserId = {userId} AND TokenUsed = 0";
-            string queryExpirationDate = $"SELECT ExpirationDate FROM ResetTickets WHERE Id = ";
+            string query = $"UPDATE reset_tickets SET token_used='1' WHERE token='{token}'";
 
             // Prepare the connection
             MySqlConnection dbConnection = new MySqlConnection(LoadConnectionString());
-            MySqlCommand dbCommand = new MySqlCommand(queryExists, dbConnection);
+            MySqlCommand dbCommand = new MySqlCommand(query, dbConnection);
+            dbCommand.CommandTimeout = 60;
+            try
+            {
+                dbConnection.Open();
+                dbCommand.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DB error: " + ex.Message);
+            }
+        }
+
+        internal static bool GetToken(string token, int userId)
+        {
+            bool authorized = false;
+            string queryTokenId = $"SELECT * FROM reset_tickets WHERE token = '{token}' AND user_id = '{userId}' AND token_used = '0'";
+
+            // Prepare the connection
+            MySqlConnection dbConnection = new MySqlConnection(LoadConnectionString());
+            MySqlCommand dbCommand = new MySqlCommand(queryTokenId, dbConnection);
             dbCommand.CommandTimeout = 60;
             MySqlDataReader reader;
 
-            //dbConnection.Open();
+            dbConnection.Open();
 
-            //reader = dbCommand.ExecuteReader();
+            reader = dbCommand.ExecuteReader();
 
-            //// check if ticket exists with that token and user exists
-            //reader
-            //if (reader.)
-            //{
-            //    id = 0;
+            if (reader.Read())
+            {
+                DateTime expirationDate = DateTime.Parse(reader["expiration_date"].ToString());
+                if(expirationDate > DateTime.Now)
+                {
+                    authorized = true;
+                }
+            }
 
-            //    //check if a ticket with that token, that user and that has not been used exists.
-            //    var resultToken = connection.Query<int>(queryTokenId).ToList();
-            //    if (resultToken.Count > 0)
-            //    {
-            //        id = -1;
-
-            //        int resultTokenId = resultToken.Single();
-
-            //        // check if token has expired
-            //        var resultDate = connection.Query<string>(queryExpirationDate + resultTokenId).ToList();
-
-            //        DateTime expirationDate = DateTime.Parse(resultDate.Single());
-
-            //        if (DateTime.Now < expirationDate)
-            //        {
-            //            // token is not expired!
-            //            id = resultTokenId;
-            //        }
-            //    }
-            //}
-            
-
-            return id;
+            return authorized;
         }
 
         internal static int GetUserId(string username)
