@@ -20,7 +20,7 @@ namespace UDP_Client_Auction
     /// </summary>
     public partial class FullAuctionControl : UserControl
     {
-        Auction auction;
+        public Auction auction;
 
         public FullAuctionControl(Auction _auction)
         {

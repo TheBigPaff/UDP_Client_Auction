@@ -100,7 +100,7 @@ namespace UDP_Client_Auction
                 contentArea.Content = new FullAuctionControl(auction);
                 if (auction.isExpired)
                 {
-                    AuctionTimer.DisableAuction(auction);
+                    AuctionTimer.DisableAuction(auction.Id);
                 }
             }
         }

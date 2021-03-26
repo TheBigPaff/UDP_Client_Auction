@@ -89,6 +89,7 @@ namespace UDP_Client_Auction
                         if (Session.contentArea.Content is FullAuctionControl)
                         {
                             FullAuctionControl control = (FullAuctionControl)Session.contentArea.Content;
+                            control.auction.HighestBid = float.Parse(amount);
                             control.highestBidTb.Text = amount + "€";
                         }
                         else if (Session.contentArea.Content is AuctionsControl)

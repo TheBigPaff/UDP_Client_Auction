@@ -30,18 +30,19 @@ namespace UDP_Client_Auction
         {
             if(auction.isExpired) // that means the auction has already ended
             {
-                DisableAuction(auction);
+                DisableAuction(auction.Id);
             }
             else
             {
                 //await Task.Delay((int)auction.End.Subtract(DateTime.Now).TotalMilliseconds);
                 await Task.Delay(auction.End - DateTime.Now);
-                DisableAuction(auction);
+                DisableAuction(auction.Id);
             }
         }
 
-        static public void DisableAuction(Auction auction)
+        static public void DisableAuction(int auctionId)
         {
+            Auction auction = DB.LoadAuctions().Find(x => x.Id == auctionId);
             if (Session.contentArea.Content is FullAuctionControl)
             {
                 FullAuctionControl control = (FullAuctionControl)Session.contentArea.Content;
